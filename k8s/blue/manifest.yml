@@ -37,7 +37,13 @@ data:
     <!DOCTYPE html>
     <html lang="en">
     <head>
-        <title>A simple HTML document</title>
+        <title>Demo</title>
+        <style>
+          body {
+          background-color: lightblue;
+          text-align: center;
+          }
+        </style>
     </head>
     <body>
         <p>Blue!<p>

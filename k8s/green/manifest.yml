@@ -27,7 +27,7 @@ spec:
         - name: nginx-config
           configMap:
             name: green-cm
----             
+---              
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -37,7 +37,13 @@ data:
     <!DOCTYPE html>
     <html lang="en">
     <head>
-        <title>A simple HTML document</title>
+        <title>Demo</title>
+        <style>
+          body {
+          background-color: lightgreen;
+          text-align: center;
+          }
+        </style>
     </head>
     <body>
         <p>Green!<p>
