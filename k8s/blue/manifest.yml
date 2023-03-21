@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue
+  labels:
+    app: nginx
+    color: blue
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.23.3
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /usr/share/nginx/html #nginx specific
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: blue-cm
+---              
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: blue-cm
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>A simple HTML document</title>
+    </head>
+    <body>
+        <p>Blue!<p>
+    </body>
+    </html>
