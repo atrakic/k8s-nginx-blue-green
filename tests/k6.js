@@ -1,8 +1,13 @@
 // brew install k6
 import http from 'k6/http';
-import { sleep } from 'k6';
+import { sleep, check } from 'k6';
+import { Rate } from 'k6/metrics';
+
+export const errorRate = new Rate('errors');
 
 export const options = {
+  vus: 2,
+  duration: '5s',
   insecureSkipTLSVerify: true,
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors should be less than 1%
@@ -11,12 +16,15 @@ export const options = {
 };
 
 export default function () {
-  const req1 = {
-    params: {
-      headers: {'Host': 'www.demo.io'},
+  const url = 'http://localhost:80';
+  const params = {
+    headers: {
+      'Host': 'www.demo.io',
+      'Content-Type': 'application/json',
     },
-    method: 'GET',
-    url: 'http://localhost:80',
   };
-  const responses = http.batch([req1]);
+  sleep(0.1);
+  check(http.get(url, params), {
+    'status is 200': (r) => r.status == 200,
+  }) || errorRate.add(1);
 }
