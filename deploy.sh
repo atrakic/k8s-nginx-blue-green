@@ -16,5 +16,6 @@ kubectl wait --for=condition=Ready pods --timeout=300s -l "app=nginx"
 
 kubectl apply -f k8s/svc.yml
 kubectl apply -f k8s/ing.yml
-sleep 1
-#curl -i -D- http://localhost:80 -H "Host: www.demo.io"
+
+# 404 is default status on empty ingress
+timeout 5 bash -c 'while [[ "$(curl -sL -o /dev/null -w ''%{http_code}'' localhost:80)" != "404" ]]; do sleep 1; done' || false
