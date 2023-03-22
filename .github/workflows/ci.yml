@@ -18,13 +18,14 @@ jobs:
         with:
           install_only: true
 
-      - name: Install k6
-        run: |
-          curl https://github.com/loadimpact/k6/releases/download/v0.26.2/k6-v0.26.2-linux64.tar.gz -L | tar xvz --strip-components 1
-
       - name: CI
         run: |
-          make
+          make deploy
+
+      - name: Run k6 local test
+        uses: grafana/k6-action@v0.2.0
+        with:
+          filename: tests/k6.js
 
       - name: Debug failure
         if: failure()
