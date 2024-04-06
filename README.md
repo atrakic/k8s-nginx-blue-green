@@ -1,4 +1,4 @@
-# k6-nginx-blue-green
+# k8s-nginx-blue-green
 
 **Blue/green deployment technique for a single service using ConfigMaps and [Nginx Ingress controller](https://github.com/kubernetes/ingress-nginx).**
 
